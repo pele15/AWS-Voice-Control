@@ -67,7 +67,7 @@ def on_message_recieved(topic, payload, dup=None, qos=None, retian=None, **kwarg
     json_body = json.loads(payload.decode())
     if (topic == '/voice'):
         if (json_body['display'] == True):
-            subprocess.run(topics['DISPLAY']['command'] + topics['DISPLAY']['image'])
+            os.system(topics['DISPLAY']['command'] + ' ' + topics['DISPLAY']['image'])
         try:
             feed_id = json_body['feed-id']
             if (feed_id == "joke-question"):

@@ -3,6 +3,7 @@ from awsiot import mqtt_connection_builder
 import sys
 import configparser
 import time
+import json
 
 topics = configparser.ConfigParser()
 topics.read('topics.ini')
@@ -73,12 +74,13 @@ def main():
     # )
     # result = subscribe_event.result()
 
+    json_payload = json.dumps({'msg': 1})
+    
     publish = mqtt_conn.publish(
     topic=topics['TOPICS']['topic'],
-    payload="{ \
-        msg : 1, \
-    }",
-    qos=mqtt.QoS.AT_LEAST_ONCE)
+    payload=json_payload,
+    qos=mqtt.QoS.AT_LEAST_ONCE
+    )
     print(publish)
     time.sleep(2)
     print("go here")

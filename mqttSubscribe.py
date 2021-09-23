@@ -5,6 +5,7 @@ from pydub.playback import play
 import sys
 import configparser
 import threading
+import json
 
 
 topics = configparser.ConfigParser()
@@ -33,7 +34,7 @@ def on_connection_resumed(connection, return_code, session_present, **kwargs):
 def on_resubscribe_complete(resubscribe_future):
         resubscribe_results = resubscribe_future.result()
         print("Resubscribe results: {}".format(resubscribe_results))
-
+        
         for topic, qos in resubscribe_results['topics']:
             if qos is None:
                 sys.exit("Server rejected resubscribe to topic: {}".format(topic))
@@ -41,8 +42,10 @@ def on_resubscribe_complete(resubscribe_future):
 def on_message_recieved(topic, payload, dup=None, qos=None, retian=None, **kwargs):
     print("Received message from topic '{}': {}".format(topic, payload))
     print("payload = ", payload)
-    audio = AudioSegment.from_wav("sounds/hell-key/hello.wav")
-    play(audio)
+    json_body = json.loads(payload.decode())
+    if (json_body['msg'] == 1):
+        audio = AudioSegment.from_wav("sounds/hell-key/hello.wav")
+        play(audio)
 
 def main():
     # Spin up resources

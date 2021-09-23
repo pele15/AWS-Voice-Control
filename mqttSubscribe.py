@@ -34,7 +34,7 @@ def on_resubscribe_complete(resubscribe_future):
             if qos is None:
                 sys.exit("Server rejected resubscribe to topic: {}".format(topic))
 
-def on_message_recieved(topic, payload, dup, qos, retian, **kwargs):
+def on_message_recieved(topic, payload, dup=None, qos=None, retian=None, **kwargs):
     print("Received message from topic '{}': {}".format(topic, payload))
     # implementation
 

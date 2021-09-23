@@ -79,6 +79,7 @@ def main():
     }",
     qos=mqtt.QoS.AT_LEAST_ONCE)
     print(publish)
-    time.sleep(1)
+    time.sleep(2)
+    print("go here")
 
 main()

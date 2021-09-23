@@ -44,7 +44,7 @@ def on_message_recieved(topic, payload, dup=None, qos=None, retian=None, **kwarg
     print("payload = ", payload)
     json_body = json.loads(payload.decode())
     if (json_body['msg'] == 1):
-        audio = AudioSegment.from_wav("sounds/hell-key/hello.wav")
+        audio = AudioSegment.from_wav("sounds/hello-key/hello.wav")
         play(audio)
 
 def main():

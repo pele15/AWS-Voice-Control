@@ -10,6 +10,15 @@ topics.read('topics.ini')
 
 io.init_logging(getattr(io.LogLevel, io.LogLevel.NoLogs.name), 'stderr')
 
+
+def disconnect(mqtt_client):
+    # Disconnect
+    print("Disconnecting...")
+    disconnect_future = mqtt_client.disconnect()
+    disconnect_future.result()
+    print("Disconnected!")
+
+
 # callback for connection intrreupt
 def on_connection_interrupted(connection, error, **kwargs):
     print("Connection interrupted. error: {}".format(error))
@@ -48,7 +57,7 @@ def main():
     config = configparser.ConfigParser()
     config.read('config.ini')
     print(config['AWS']['endpoint'])
-    mqtt_conn = mqtt_connection_builder.mtls_from_path(
+    mqtt_client = mqtt_connection_builder.mtls_from_path(
         endpoint =  config['AWS']['endpoint'],
         port = int(config['AWS']['port']),
         cert_filepath = config['AWS']['cert_filepath'],
@@ -63,7 +72,7 @@ def main():
         http_proxy_options = None
     )
 
-    connection = mqtt_conn.connect()
+    connection = mqtt_client.connect()
     connection.result() # waits until connection is established
     print("connection established!")
 
@@ -76,7 +85,7 @@ def main():
 
     json_payload = json.dumps({'msg': 1})
     
-    publish = mqtt_conn.publish(
+    publish = mqtt_client.publish(
     topic=topics['TOPICS']['topic'],
     payload=json_payload,
     qos=mqtt.QoS.AT_LEAST_ONCE
@@ -84,5 +93,7 @@ def main():
     print(publish)
     time.sleep(2)
     print("go here")
+    disconnect(mqtt_client)
 
+    
 main()

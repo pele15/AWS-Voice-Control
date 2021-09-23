@@ -7,8 +7,7 @@ import configparser
 import threading
 import json
 import random
-import subprocess
-
+import threading
 
 topics = configparser.ConfigParser()
 topics.read('topics.ini')
@@ -62,28 +61,44 @@ def on_resubscribe_complete(resubscribe_future):
 def on_message_recieved(topic, payload, dup=None, qos=None, retian=None, **kwargs):
     print("Received message from topic '{}': {}".format(topic, payload))
     print("payload = ", payload)
-    global joke_key
-    global ind
+
     json_body = json.loads(payload.decode())
     if (topic == '/voice'):
-        if (json_body['display'] == True):
-            os.system(topics['DISPLAY']['command'] + ' ' + topics['DISPLAY']['image'])
-        try:
-            feed_id = json_body['feed-id']
-            if (feed_id == "joke-question"):
-                joke_key = JOKES_IDs_INDS[ind]
-                ind = (ind + 1) % len(JOKES_IDs)
-                audio = AudioSegment.from_wav("sounds/joke-question/"  + str(joke_key) + ".wav")
-            elif (feed_id == "punchline"):
-                audio = AudioSegment.from_wav("sounds/punchline/" + str(JOKES_DICT[joke_key]) + ".wav")
-            else:
-                file = random.choice(os.listdir("sounds/" + feed_id))
-                audio = AudioSegment.from_wav("sounds/" + feed_id + "/" + file)
-            play(audio)
-        except:
-            print('Couldn\'t find the audio file. Please add one')
-            pass
+        feed_id = json_body['feed-id']
+        if (json_body['display'] != True):
+            playSound(feed_id)
+        else:
+            showAd(topics['DISPLAY']['image'])
+            adThread = threading.Thread(target=showAd, args=(topics['DISPLAY']['image'],))
+            soundThread = threading.Thread(target=playSound, args=(feed_id,))
+            adThread.start()
+            soundThread.start()
+            adThread.join()
+            soundThread.join()
+
     
+def showAd(adName):
+    os.system(topics['DISPLAY']['command'] + ' ' + adName)
+
+
+def playSound(feed_id):
+    global joke_key
+    global ind
+    try:  
+        if (feed_id == "joke-question"):
+            joke_key = JOKES_IDs_INDS[ind]
+            ind = (ind + 1) % len(JOKES_IDs)
+            audio = AudioSegment.from_wav("sounds/joke-question/"  + str(joke_key) + ".wav")
+        elif (feed_id == "punchline"):
+            audio = AudioSegment.from_wav("sounds/punchline/" + str(JOKES_DICT[joke_key]) + ".wav")
+        else:
+            file = random.choice(os.listdir("sounds/" + feed_id))
+            audio = AudioSegment.from_wav("sounds/" + feed_id + "/" + file)
+        play(audio)
+    except:
+        print('Couldn\'t find the audio file. Please add one')
+        pass
+
 
 def main():
     # Spin up resources

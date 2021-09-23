@@ -3,3 +3,6 @@
 *.pem
 *.key
 *.crt.txt
+
+#Config
+*.ini

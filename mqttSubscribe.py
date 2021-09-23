@@ -1,10 +1,14 @@
 from awscrt import io, mqtt, auth, http
 from awsiot import mqtt_connection_builder
+from pydub import AudioSegment
+from pydub.playback import play
 import sys
 import configparser
 import threading
 
-sound_topic = "sound-test"
+
+topics = configparser.ConfigParser()
+topics.read('topics.ini')
 
 io.init_logging(getattr(io.LogLevel, io.LogLevel.NoLogs.name), 'stderr')
 received_all_event = threading.Event()
@@ -36,7 +40,9 @@ def on_resubscribe_complete(resubscribe_future):
 
 def on_message_recieved(topic, payload, dup=None, qos=None, retian=None, **kwargs):
     print("Received message from topic '{}': {}".format(topic, payload))
-    # implementation
+    print("payload = ", payload)
+    audio = AudioSegment.from_wav("sounds/hell-key/hello.wav")
+    play(audio)
 
 def main():
     # Spin up resources
@@ -67,7 +73,7 @@ def main():
     print("connection established!")
 
     subscribe_event, packet_id = mqtt_conn.subscribe(
-        topic = sound_topic,
+        topic = topics['TOPICS']['topic'],
         qos= mqtt.QoS.AT_LEAST_ONCE,
         callback=on_message_recieved
     )

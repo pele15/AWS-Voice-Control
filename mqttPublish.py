@@ -4,7 +4,8 @@ import sys
 import configparser
 import time
 
-sound_topic = "sound-test"
+topics = configparser.ConfigParser()
+topics.read('topics.ini')
 
 io.init_logging(getattr(io.LogLevel, io.LogLevel.NoLogs.name), 'stderr')
 
@@ -73,7 +74,7 @@ def main():
     # result = subscribe_event.result()
 
     publish = mqtt_conn.publish(
-    topic=sound_topic,
+    topic=topics['TOPICS']['topic'],
     payload="{ \
         msg : 1, \
     }",

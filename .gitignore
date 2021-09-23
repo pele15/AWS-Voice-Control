@@ -6,3 +6,4 @@
 
 #Config
 *.ini
+!topics.ini

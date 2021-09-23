@@ -65,21 +65,21 @@ def on_message_recieved(topic, payload, dup=None, qos=None, retian=None, **kwarg
     global ind
     json_body = json.loads(payload.decode())
     if (topic == '/voice'):
-        try:
-            feed_id = json_body['feed-id']
-            if (feed_id == "joke-question"):
-                joke_key = JOKES_IDs_INDS[ind]
-                ind = (ind + 1) % len(JOKES_IDs)
-                audio = AudioSegment.from_wav("sounds/joke-question/"  + str(joke_key) + ".wav")
-            elif (feed_id == "punchline"):
-                audio = AudioSegment.from_wav("sounds/punchline/" + str(JOKES_DICT[joke_key]) + ".wav")
-            else:
-                file = random.choice(os.listdir("sounds/" + feed_id))
-                audio = AudioSegment.from_wav("sounds/" + feed_id + "/" + file)
-            play(audio)
-        except:
-            print('Couldn\'t find the audio file. Please add one')
-            pass 
+        #try:
+        feed_id = json_body['feed-id']
+        if (feed_id == "joke-question"):
+            joke_key = JOKES_IDs_INDS[ind]
+            ind = (ind + 1) % len(JOKES_IDs)
+            audio = AudioSegment.from_wav("sounds/joke-question/"  + str(joke_key) + ".wav")
+        elif (feed_id == "punchline"):
+            audio = AudioSegment.from_wav("sounds/punchline/" + str(JOKES_DICT[joke_key]) + ".wav")
+        else:
+            file = random.choice(os.listdir("sounds/" + feed_id))
+            audio = AudioSegment.from_wav("sounds/" + feed_id + "/" + file)
+        play(audio)
+        # except:
+        #     print('Couldn\'t find the audio file. Please add one')
+        #     pass 
 
 def main():
     # Spin up resources

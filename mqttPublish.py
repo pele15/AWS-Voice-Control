@@ -2,6 +2,9 @@ from awscrt import io, mqtt, auth, http
 from awsiot import mqtt_connection_builder
 import sys
 import configparser
+import time
+
+sound_topic = "sound-test"
 
 io.init_logging(getattr(io.LogLevel, io.LogLevel.NoLogs.name), 'stderr')
 
@@ -62,5 +65,20 @@ def main():
     connection.result() # waits until connection is established
     print("connection established!")
 
+    # subscribe_event, packet_id = mqtt_conn.subscribe(
+    #     topic = sound_topic,
+    #     qos= mqtt.QoS.AT_LEAST_ONCE,
+    #     callback=on_message_recieved
+    # )
+    # result = subscribe_event.result()
+
+    publish = mqtt_conn.publish(
+    topic=sound_topic,
+    payload="{ \
+        msg : 1, \
+    }",
+    qos=mqtt.QoS.AT_LEAST_ONCE)
+    print(publish)
+    time.sleep(1)
 
 main()

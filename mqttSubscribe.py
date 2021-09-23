@@ -2,14 +2,33 @@ from awscrt import io, mqtt, auth, http
 from awsiot import mqtt_connection_builder
 from pydub import AudioSegment
 from pydub.playback import play
-import sys
+import sys, os
 import configparser
 import threading
 import json
+import random
 
 
 topics = configparser.ConfigParser()
 topics.read('topics.ini')
+
+JOKES_DICT = {
+    'guac':"guac-resp",
+    'sweden':"sweden-resp",
+    'vaccum':"vaccum-resp",
+    'cross-road': "cross-road-resp",
+    'texas':"texas-resp",
+    'metal': "metal-resp",
+    'insecure':"insecure-resp",
+    'rusty':"rusty-resp",
+    'battery':"battery-resp",
+}
+JOKES_IDs = list(JOKES_DICT.keys())
+JOKES_IDs_INDS = random.sample(JOKES_IDs, len(JOKES_IDs))
+
+global joke_key, ind
+joke_key = ""
+ind = 0
 
 io.init_logging(getattr(io.LogLevel, io.LogLevel.NoLogs.name), 'stderr')
 received_all_event = threading.Event()
@@ -42,10 +61,25 @@ def on_resubscribe_complete(resubscribe_future):
 def on_message_recieved(topic, payload, dup=None, qos=None, retian=None, **kwargs):
     print("Received message from topic '{}': {}".format(topic, payload))
     print("payload = ", payload)
+    global joke_key
+    global ind
     json_body = json.loads(payload.decode())
-    if (json_body['msg'] == 1):
-        audio = AudioSegment.from_wav("sounds/hello-key/hello.wav")
-        play(audio)
+    if (topic == '/voice'):
+        try:
+            feed_id = json_body['feed-id']
+            if (feed_id == "joke-question"):
+                joke_key = JOKES_IDs_INDS[ind]
+                ind = (ind + 1) % len(JOKES_IDs)
+                audio = AudioSegment.from_wav("sounds/joke-question/"  + str(joke_key) + ".wav")
+            elif (feed_id == "punchline"):
+                audio = AudioSegment.from_wav("sounds/punchline/" + str(JOKES_DICT[joke_key]) + ".wav")
+            else:
+                file = random.choice(os.listdir("sounds/" + feed_id))
+                audio = AudioSegment.from_wav("sounds/" + feed_id + "/" + file)
+            play(audio)
+        except:
+            print('Couldn\'t find the audio file. Please add one')
+            pass 
 
 def main():
     # Spin up resources
@@ -81,6 +115,7 @@ def main():
         callback=on_message_recieved
     )
     result = subscribe_event.result()
+    print("Result status = ", result)
     received_all_event.wait()
 
 main()

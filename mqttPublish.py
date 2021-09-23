@@ -83,7 +83,7 @@ def main():
     # )
     # result = subscribe_event.result()
 
-    json_payload = json.dumps({'msg': 1})
+    json_payload = json.dumps({'feed-id': "hello-feed"})
     
     publish = mqtt_client.publish(
     topic=topics['TOPICS']['topic'],

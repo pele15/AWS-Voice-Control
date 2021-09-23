@@ -4,6 +4,7 @@ import sys
 import configparser
 import time
 import json
+import subprocess
 
 topics = configparser.ConfigParser()
 topics.read('topics.ini')

@@ -68,7 +68,6 @@ def on_message_recieved(topic, payload, dup=None, qos=None, retian=None, **kwarg
         if (json_body['display'] != True):
             playSound(feed_id)
         else:
-            showAd(topics['DISPLAY']['image'])
             adThread = threading.Thread(target=showAd, args=(topics['DISPLAY']['image'],))
             soundThread = threading.Thread(target=playSound, args=(feed_id,))
             adThread.start()

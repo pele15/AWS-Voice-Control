@@ -4,7 +4,6 @@ import sys
 import configparser
 import time
 import json
-import subprocess
 
 topics = configparser.ConfigParser()
 topics.read('topics.ini')
@@ -84,7 +83,7 @@ def main():
     # )
     # result = subscribe_event.result()
 
-    json_payload = json.dumps({'feed-id': "joke-question",
+    json_payload = json.dumps({'feed-id': "caribou",
                                 'display': True,
                                 'display-ad': "caribou"
                                 })
@@ -95,7 +94,6 @@ def main():
     qos=mqtt.QoS.AT_LEAST_ONCE
     )
     print(publish)
-    time.sleep(2)
     print("go here")
     disconnect(mqtt_client)
 

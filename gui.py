@@ -4,6 +4,12 @@ from PyQt5.QtWidgets import (QMainWindow, QApplication, QWidget,
 import mqttPublish
 import json
 from awscrt import io, mqtt, auth, http
+import configparser
+
+topics = configparser.ConfigParser()
+topics.read('topics.ini')
+
+io.init_logging(getattr(io.LogLevel, io.LogLevel.NoLogs.name), 'stderr')
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -41,7 +47,7 @@ class MainWindow(QMainWindow):
         client_bootstrap = io.ClientBootstrap(event_loop_group, host_resolver)
         mqtt_client = mqttPublish.connect_client(client_bootstrap)
         mqttPublish.publish_msg(mqtt_client, json_payload)
-        mqttPublish.disconnect_client(mqtt_client)
+        mqttPublish.disconnect(mqtt_client)
         print(adName)    
 
 

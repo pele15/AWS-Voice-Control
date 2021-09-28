@@ -2,7 +2,6 @@ from awscrt import io, mqtt, auth, http
 from awsiot import mqtt_connection_builder
 import sys
 import configparser
-import time
 import json
 
 topics = configparser.ConfigParser()
@@ -52,11 +51,14 @@ def publish_msg(mqtt_client, json_payload):
     publish = mqtt_client.publish(
     topic=topics['TOPICS']['topic'],
     payload=json_payload,
-    qos=mqtt.QoS.AT_LEAST_ONCE
+    qos=mqtt.QoS.AT_MOST_ONCE
     )
     return publish
 
 def connect_client(client_bootstrap):
+    event_loop_group = io.EventLoopGroup(1)
+    host_resolver = io.DefaultHostResolver(event_loop_group)
+    client_bootstrap = io.ClientBootstrap(event_loop_group, host_resolver)
     config = configparser.ConfigParser()
     config.read('config.ini')
     print(config['AWS']['endpoint'])
@@ -76,8 +78,6 @@ def connect_client(client_bootstrap):
     )
     return mqtt_client
 
-def disconnect_client(mqtt_client):
-    disconnect(mqtt_client)
 
 def main():
     # Spin up resources
@@ -99,7 +99,7 @@ def main():
     json_payload = json.dumps({'feed-id': "caribou",
                                 'display': True,
                                 'display-ad': "caribou",
-                                'ad-img': "caribou_led.jpg"
+                                'ad-img': "caribouSkippy.jpg"
                                 })
     
     # publish = mqtt_client.publish(

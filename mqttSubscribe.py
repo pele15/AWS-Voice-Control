@@ -138,7 +138,7 @@ def main():
 
     subscribe_event, packet_id = mqtt_conn.subscribe(
         topic = topics['TOPICS']['topic'],
-        qos= mqtt.QoS.AT_LEAST_ONCE,
+        qos= mqtt.QoS.AT_MOST_ONCE,
         callback=on_message_recieved
     )
     result = subscribe_event.result()

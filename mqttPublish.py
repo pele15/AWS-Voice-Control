@@ -96,10 +96,11 @@ def main():
     # )
     # result = subscribe_event.result()
 
-    json_payload = json.dumps({'feed-id': "caribou",
+    json_payload = json.dumps({'feed-id': "freshii",
                                 'display': True,
-                                'display-ad': "caribou",
-                                'ad-img': "caribouSkippy.jpg"
+                                'display-ad': "freshie",
+                                'ad-img': "freshie.jpg",
+                                'location': 'side'
                                 })
     
     # publish = mqtt_client.publish(

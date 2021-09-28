@@ -69,7 +69,7 @@ def on_message_recieved(topic, payload, dup=None, qos=None, retian=None, **kwarg
         feed_id = json_body['feed-id']
         location = config['DEVICE']['location']
         sound_on = config['DEVICE']['sound']
-        ad_img= topics['DISPLAY']['image']
+        ad_img= json_body['ad-img']
         if (sound_on):
             if (json_body['display'] != True):
                 playSound(feed_id)

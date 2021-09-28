@@ -11,6 +11,8 @@ import threading
 
 topics = configparser.ConfigParser()
 topics.read('topics.ini')
+config = configparser.ConfigParser()
+config.read('config.ini')
 
 JOKES_DICT = {
     'guac':"guac-resp",
@@ -65,15 +67,23 @@ def on_message_recieved(topic, payload, dup=None, qos=None, retian=None, **kwarg
     json_body = json.loads(payload.decode())
     if (topic == '/voice'):
         feed_id = json_body['feed-id']
-        if (json_body['display'] != True):
-            playSound(feed_id)
+        location = config['DEVICE']['location']
+        sound_on = config['DEVICE']['sound']
+        ad_img= topics['DISPLAY']['image']
+        if (sound_on):
+            if (json_body['display'] != True):
+                playSound(feed_id)
+            else:
+                adThread = threading.Thread(target=showAd, args=(ad_img,))
+                soundThread = threading.Thread(target=playSound, args=(feed_id,))
+                adThread.start()
+                soundThread.start()
+                adThread.join()
+                soundThread.join()
+        elif location == 'pc':
+            pass
         else:
-            adThread = threading.Thread(target=showAd, args=(topics['DISPLAY']['image'],))
-            soundThread = threading.Thread(target=playSound, args=(feed_id,))
-            adThread.start()
-            soundThread.start()
-            adThread.join()
-            soundThread.join()
+            showAd(ad_img)
 
     
 def showAd(adName):
@@ -105,8 +115,7 @@ def main():
     host_resolver = io.DefaultHostResolver(event_loop_group)
     client_bootstrap = io.ClientBootstrap(event_loop_group, host_resolver)
 
-    config = configparser.ConfigParser()
-    config.read('config.ini')
+
     print(config['AWS']['endpoint'])
     mqtt_conn = mqtt_connection_builder.mtls_from_path(
         endpoint =  config['AWS']['endpoint'],

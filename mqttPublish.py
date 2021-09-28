@@ -48,12 +48,15 @@ def on_message_recieved(topic, payload, dup, qos, retian, **kwargs):
     print("Received message from topic '{}': {}".format(topic, payload))
     # implementation
 
-def main():
-    # Spin up resources
-    event_loop_group = io.EventLoopGroup(1)
-    host_resolver = io.DefaultHostResolver(event_loop_group)
-    client_bootstrap = io.ClientBootstrap(event_loop_group, host_resolver)
+def publish_msg(mqtt_client, json_payload):
+    publish = mqtt_client.publish(
+    topic=topics['TOPICS']['topic'],
+    payload=json_payload,
+    qos=mqtt.QoS.AT_LEAST_ONCE
+    )
+    return publish
 
+def connect_client(client_bootstrap):
     config = configparser.ConfigParser()
     config.read('config.ini')
     print(config['AWS']['endpoint'])
@@ -71,7 +74,17 @@ def main():
         keep_alive_secs = 30,
         http_proxy_options = None
     )
+    return mqtt_client
 
+def disconnect_client(mqtt_client):
+    disconnect(mqtt_client)
+
+def main():
+    # Spin up resources
+    event_loop_group = io.EventLoopGroup(1)
+    host_resolver = io.DefaultHostResolver(event_loop_group)
+    client_bootstrap = io.ClientBootstrap(event_loop_group, host_resolver)
+    mqtt_client = connect_client(client_bootstrap)
     connection = mqtt_client.connect()
     connection.result() # waits until connection is established
     print("connection established!")
@@ -85,14 +98,16 @@ def main():
 
     json_payload = json.dumps({'feed-id': "caribou",
                                 'display': True,
-                                'display-ad': "caribou"
+                                'display-ad': "caribou",
+                                'ad-img': "caribou_led.jpg"
                                 })
     
-    publish = mqtt_client.publish(
-    topic=topics['TOPICS']['topic'],
-    payload=json_payload,
-    qos=mqtt.QoS.AT_LEAST_ONCE
-    )
+    # publish = mqtt_client.publish(
+    # topic=topics['TOPICS']['topic'],
+    # payload=json_payload,
+    # qos=mqtt.QoS.AT_LEAST_ONCE
+    # )
+    publish = publish_msg(mqtt_client, json_payload)
     print(publish)
     print("go here")
     disconnect(mqtt_client)

@@ -65,27 +65,30 @@ def on_message_recieved(topic, payload, dup=None, qos=None, retian=None, **kwarg
     print("payload = ", payload)
 
     json_body = json.loads(payload.decode())
-    if (topic == '/voice'):
-        feed_id = json_body['feed-id']
-        location = config['DEVICE']['location']
-        sound_on = config['DEVICE']['sound']
-        ad_img= json_body['ad-img']
-        if (sound_on != "False"):
-            if (json_body['display'] != True):
-                playSound(feed_id)
-            else:
-                adThread = threading.Thread(target=showAd, args=(ad_img,))
-                soundThread = threading.Thread(target=playSound, args=(feed_id,))
-                adThread.start()
-                soundThread.start()
-                adThread.join()
-                soundThread.join()
-        elif location == 'pc':
-            pass
-        else:
-            showAd(ad_img)
+    # TODO: Make voice topic only for sounds
 
-    
+    feed_id = json_body['feed-id']
+    location = config['DEVICE']['location']
+    sound_on = config['DEVICE']['sound']
+    ad_img= json_body['ad-img']
+    if (sound_on != "False"):
+        if (json_body['display'] != True):
+            playSound(feed_id)
+        else:
+            adThread = threading.Thread(target=showAd, args=(ad_img,))
+            soundThread = threading.Thread(target=playSound, args=(feed_id,))
+            adThread.start()
+            soundThread.start()
+            adThread.join()
+            soundThread.join()
+    elif location == 'pc':
+        pass
+    else:
+        showAd(ad_img)
+
+def test_func(topic, payload, dup=None, qos=None, retian=None, **kwargs):
+    print("Hello from test func")
+    print(topic)
 def showAd(adName):
     os.system(topics['DISPLAY']['command'] + ' ' + adName)
 
@@ -136,13 +139,23 @@ def main():
     connection.result() # waits until connection is established
     print("connection established!")
 
+    # subscribe_event, packet_id = mqtt_conn.subscribe(
+    #     topic = topics['TOPICS']['voice'],
+    #     qos= mqtt.QoS.AT_MOST_ONCE,
+    #     callback=on_message_recieved
+    # )
+    # result = subscribe_event.result()
+    # print("Result status = ", result)
+
     subscribe_event, packet_id = mqtt_conn.subscribe(
-        topic = topics['TOPICS']['topic'],
-        qos= mqtt.QoS.AT_MOST_ONCE,
-        callback=on_message_recieved
+    topic = config['DEVICE']['location'],
+    qos= mqtt.QoS.AT_MOST_ONCE,
+    callback=on_message_recieved
     )
+
     result = subscribe_event.result()
     print("Result status = ", result)
+
     received_all_event.wait()
 
 main()

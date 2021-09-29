@@ -24,9 +24,9 @@ class MainWindow(QMainWindow):
 
         # Push Buttons
         self.caribou = QPushButton('Caribou')
-        self.caribou.clicked.connect(lambda: self.on_button_clicked('caribou'))
-        self.redBull = QPushButton('Red Bull')
-        self.redBull.clicked.connect(lambda: self.on_button_clicked('red bull'))
+        self.caribou.clicked.connect(lambda: self.on_button_clicked('caribouSkippy'))
+        self.redBull = QPushButton('Pot Belly')
+        self.redBull.clicked.connect(lambda: self.on_button_clicked('potbellySkippy'))
         self.ricos = QPushButton('Ricos')
         self.ricos.clicked.connect(lambda: self.on_button_clicked('ricos'))
         self.freshii = QPushButton('Freshii')     
@@ -61,14 +61,13 @@ class MainWindow(QMainWindow):
                                     'ad-img': adName + ".jpg"
                                     })
         location = self.getToggleState()
-        device = DEVICE_TO_LOCATION_DICT[location.text()]
-        ad = device + topics['TOPICS']['ad']
-        print(ad)
+        topic = DEVICE_TO_LOCATION_DICT[location.text()]
+        print(adName)
         mqtt_client = mqttPublish.connect_client()
         connection = mqtt_client.connect()
         connection.result() # waits until connection is established
         print("connection established!")
-        publish = mqttPublish.publish_msg(mqtt_client, json_payload)
+        publish = mqttPublish.publish_msg(mqtt_client, json_payload, topic)
         print(publish)
         mqttPublish.disconnect(mqtt_client)
         

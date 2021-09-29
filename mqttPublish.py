@@ -103,16 +103,17 @@ def main():
                                 'ad-img': "freshie.jpg",
                                 'location': 'side'
                                 })
-    
+    topic="/voice"
     # publish = mqtt_client.publish(
-    # topic=topics['TOPICS']['topic'],
+    # topic="/pc/ad",
+    # #topic=topics['TOPICS']['topic'],
     # payload=json_payload,
     # qos=mqtt.QoS.AT_LEAST_ONCE
     # )
-    publish = publish_msg(mqtt_client, json_payload)
+    publish = publish_msg(mqtt_client, json_payload, topic)
     print(publish)
     print("go here")
     disconnect(mqtt_client)
 
     
-#main()
+main()

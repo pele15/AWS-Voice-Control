@@ -14,6 +14,16 @@ topics.read('topics.ini')
 config = configparser.ConfigParser()
 config.read('config.ini')
 
+# args parse from config
+base_command = topics['DISPLAY']['baseCommand']
+ledRows = config['DISPLAY']['ledrows']
+ledColumns = config['DISPLAY']['ledColumns']
+ledChain = config['DISPLAY']['ledChain']
+ledSlowdownGPIO = config['DISPLAY']['ledSlowdownGPIO']
+ledGPIOMapping = config['DISPLAY']['ledGPIOMapping']
+ledPWMDitherBits = config['DISPLAY']['ledPWMDitherBits']
+ledShowRefresh = config['DISPLAY']['ledShowRefresh']
+
 JOKES_DICT = {
     'guac':"guac-resp",
     'sweden':"sweden-resp",
@@ -89,7 +99,19 @@ def on_message_recieved(topic, payload, dup=None, qos=None, retian=None, **kwarg
 def test_func(topic, payload, dup=None, qos=None, retian=None, **kwargs):
     print("Hello from test func")
     print(topic)
+
 def showAd(adName):
+    adCommand = base_command + \
+                " --led-rows=" + ledRows + \
+                " --led-cols=" + ledColumns + \
+                " --led-chain=" + ledChain + \
+                " --led-slowdown-gpio=" + ledSlowdownGPIO + \
+                " --led-gpio-mapping=" + ledGPIOMapping + \
+                " --led-pwm-dither-bits=" + ledPWMDitherBits
+
+    if ledShowRefresh == "True":
+        adCommand += " --led-show-refresh"
+    
     os.system(topics['DISPLAY']['command'] + ' ' + adName)
 
 
@@ -158,4 +180,16 @@ def main():
 
     received_all_event.wait()
 
-main()
+#main()
+adCommand = base_command + \
+            " --led-rows=" + ledRows + \
+            " --led-cols=" + ledColumns + \
+            " --led-chain=" + ledChain + \
+            " --led-slowdown-gpio=" + ledSlowdownGPIO + \
+            " --led-gpio-mapping=" + ledGPIOMapping + \
+            " --led-pwm-dither-bits=" + ledPWMDitherBits
+
+if ledShowRefresh == "True":
+    adCommand += " --led-show-refresh"
+
+print(adCommand)

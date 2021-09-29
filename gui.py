@@ -12,9 +12,9 @@ topics.read('topics.ini')
 io.init_logging(getattr(io.LogLevel, io.LogLevel.NoLogs.name), 'stderr')
 
 DEVICE_TO_LOCATION_DICT = {
-    "Back": "piZero",
-    "Side A": "pi4A",
-    "Side B": "pi4B",
+    "Back": "/piZero",
+    "Side A": "/pi4A",
+    "Side B": "/pi4B",
 }
 class MainWindow(QMainWindow):
     def __init__(self):

@@ -55,7 +55,7 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(central_widget)  
 
     def on_button_clicked(self, adName):
-        json_payload = json.dumps({'feed-id': adName,
+        json_payload = json.dumps({'feed-id': 'coffee',
                                     'display': True,
                                     'display-ad': adName,
                                     'ad-img': adName + ".jpg"

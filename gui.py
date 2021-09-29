@@ -24,7 +24,7 @@ class MainWindow(QMainWindow):
 
         # Push Buttons
         self.caribou = QPushButton('Caribou')
-        self.caribou.clicked.connect(lambda: self.on_button_clicked('caribouSkippy'))
+        self.caribou.clicked.connect(lambda: self.on_button_clicked('caribouSkippy2'))
         self.redBull = QPushButton('Pot Belly')
         self.redBull.clicked.connect(lambda: self.on_button_clicked('potbellySkippy'))
         self.ricos = QPushButton('Ricos')

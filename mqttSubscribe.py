@@ -180,16 +180,4 @@ def main():
 
     received_all_event.wait()
 
-#main()
-adCommand = base_command + \
-            " --led-rows=" + ledRows + \
-            " --led-cols=" + ledColumns + \
-            " --led-chain=" + ledChain + \
-            " --led-slowdown-gpio=" + ledSlowdownGPIO + \
-            " --led-gpio-mapping=" + ledGPIOMapping + \
-            " --led-pwm-dither-bits=" + ledPWMDitherBits
-
-if ledShowRefresh == "True":
-    adCommand += " --led-show-refresh"
-
-print(adCommand)
+main()

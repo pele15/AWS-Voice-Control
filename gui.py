@@ -25,12 +25,16 @@ class MainWindow(QMainWindow):
         # Push Buttons
         self.caribou = QPushButton('Caribou')
         self.caribou.clicked.connect(lambda: self.on_button_clicked('caribouSkippy2'))
-        self.redBull = QPushButton('Pot Belly')
-        self.redBull.clicked.connect(lambda: self.on_button_clicked('potbellySkippy'))
+        self.potBelly = QPushButton('Pot Belly')
+        self.potBelly.clicked.connect(lambda: self.on_button_clicked('potbellySkippy'))
         self.ricos = QPushButton('Ricos')
         self.ricos.clicked.connect(lambda: self.on_button_clicked('ricos'))
         self.freshii = QPushButton('Freshii')     
         self.freshii.clicked.connect(lambda: self.on_button_clicked('freshie'))
+        self.redBull = QPushButton('Red Bull 4')
+        self.redBull.clicked.connect(lambda: self.on_button_clicked('redbull'))
+        self.redBull0 = QPushButton('Red Bull 0')
+        self.redBull0.clicked.connect(lambda: self.on_button_clicked('redbull0'))
 
         # Radio Button
         
@@ -45,9 +49,10 @@ class MainWindow(QMainWindow):
 
 
         main_layout.addWidget(self.caribou) 
-        main_layout.addWidget(self.redBull)
+        main_layout.addWidget(self.potBelly)
         main_layout.addWidget(self.ricos)
         main_layout.addWidget(self.freshii)
+        main_layout.addWidget(self.redBull)
 
         central_widget = QWidget()
         central_widget.setLayout(main_layout)

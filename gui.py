@@ -48,6 +48,10 @@ class MainWindow(QMainWindow):
         self.redBull6.clicked.connect(lambda: self.on_button_clicked('redbull6-4'))
         self.redBull7 = QPushButton('Red Bull 6-5')
         self.redBull7.clicked.connect(lambda: self.on_button_clicked('redbull6-5'))
+        self.chips4 = QPushButton('Chips 4-1')
+        self.chips4.clicked.connect(lambda: self.on_button_clicked('chips4-1'))
+        self.cookies6 = QPushButton('Cookies 6-1')
+        self.cookies6.clicked.connect(lambda: self.on_button_clicked('cookies6-1'))
 
         # Radio Button
         
@@ -73,6 +77,8 @@ class MainWindow(QMainWindow):
         main_layout.addWidget(self.redBull)
         main_layout.addWidget(self.redBull6)
         main_layout.addWidget(self.redBull7)
+        main_layout.addWidget(self.chips4)
+        main_layout.addWidget(self.cookies6)
         central_widget = QWidget()
         central_widget.setLayout(main_layout)
 

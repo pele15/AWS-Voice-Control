@@ -45,7 +45,9 @@ class MainWindow(QMainWindow):
         self.redBull = QPushButton('Red Bull 6-3')
         self.redBull.clicked.connect(lambda: self.on_button_clicked('redbull6-3'))
         self.redBull6 = QPushButton('Red Bull 6-4')
-        self.redBull.clicked.connect(lambda: self.on_button_clicked('redbull6-4'))
+        self.redBull6.clicked.connect(lambda: self.on_button_clicked('redbull6-4'))
+        self.redBull7 = QPushButton('Red Bull 6-5')
+        self.redBull7.clicked.connect(lambda: self.on_button_clicked('redbull6-5'))
 
         # Radio Button
         
@@ -70,6 +72,7 @@ class MainWindow(QMainWindow):
         main_layout.addWidget(self.redBull3)
         main_layout.addWidget(self.redBull)
         main_layout.addWidget(self.redBull6)
+        main_layout.addWidget(self.redBull7)
         central_widget = QWidget()
         central_widget.setLayout(main_layout)
 

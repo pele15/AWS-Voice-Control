@@ -31,10 +31,17 @@ class MainWindow(QMainWindow):
         self.ricos.clicked.connect(lambda: self.on_button_clicked('ricos'))
         self.freshii = QPushButton('Freshii')     
         self.freshii.clicked.connect(lambda: self.on_button_clicked('freshie'))
-        self.redBull = QPushButton('Red Bull 4')
-        self.redBull.clicked.connect(lambda: self.on_button_clicked('redbull'))
-        self.redBull0 = QPushButton('Red Bull 0')
-        self.redBull0.clicked.connect(lambda: self.on_button_clicked('redbull0'))
+
+        self.redBull0 = QPushButton('Red Bull 4-2')
+        self.redBull0.clicked.connect(lambda: self.on_button_clicked('redbull4-1'))
+        self.redBull1 = QPushButton('Red Bull 4-1')
+        self.redBull1.clicked.connect(lambda: self.on_button_clicked('redbull4-2'))
+        self.redBull2 = QPushButton('Red Bull 6-1')
+        self.redBull2.clicked.connect(lambda: self.on_button_clicked('redbull6-1'))
+        self.redBull3 = QPushButton('Red Bull 6-2')
+        self.redBull3.clicked.connect(lambda: self.on_button_clicked('redbull6-2'))
+        self.redBull = QPushButton('Red Bull 6-3')
+        self.redBull.clicked.connect(lambda: self.on_button_clicked('redbull6-3'))
 
         # Radio Button
         
@@ -52,15 +59,18 @@ class MainWindow(QMainWindow):
         main_layout.addWidget(self.potBelly)
         main_layout.addWidget(self.ricos)
         main_layout.addWidget(self.freshii)
+        main_layout.addWidget(self.redBull0)
+        main_layout.addWidget(self.redBull1)
+        main_layout.addWidget(self.redBull2)
+        main_layout.addWidget(self.redBull3)
         main_layout.addWidget(self.redBull)
-
         central_widget = QWidget()
         central_widget.setLayout(main_layout)
 
         self.setCentralWidget(central_widget)  
 
     def on_button_clicked(self, adName):
-        json_payload = json.dumps({'feed-id': 'coffee',
+        json_payload = json.dumps({'feed-id': 'none',
                                     'display': True,
                                     'display-ad': adName,
                                     'ad-img': adName + ".jpg"

@@ -35,7 +35,7 @@ class MainWindow(QMainWindow):
         self.redBull0 = QPushButton('Red Bull 4-0')
         self.redBull0.clicked.connect(lambda: self.on_button_clicked('redbull0'))
         self.redBull1 = QPushButton('Red Bull 4-1')
-        self.redBull1.clicked.connect(lambda: self.on_button_clicked('redbull4-1'))
+        self.redBull1.clicked.connect(lambda: self.on_button_clicked('redbull4-4'))
         self.redBull5 = QPushButton('Red Bull 4-2')
         self.redBull5.clicked.connect(lambda: self.on_button_clicked('redbull4-2'))
         self.redBull2 = QPushButton('Red Bull 6-1')

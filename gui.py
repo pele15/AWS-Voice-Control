@@ -52,7 +52,10 @@ class MainWindow(QMainWindow):
         self.chips4.clicked.connect(lambda: self.on_button_clicked('chips4-1'))
         self.cookies6 = QPushButton('Cookies 6-1')
         self.cookies6.clicked.connect(lambda: self.on_button_clicked('cookies6-1'))
-
+        self.techstars1 = QPushButton('Techstars 4-1')
+        self.techstars1.clicked.connect(lambda: self.on_button_clicked('techstars4-1'))
+        self.techstars2 = QPushButton('Techstars 4-2')
+        self.techstars2.clicked.connect(lambda: self.on_button_clicked('techstars4-2'))
         # Radio Button
         
         self.piZero = QRadioButton("Back")
@@ -79,6 +82,8 @@ class MainWindow(QMainWindow):
         main_layout.addWidget(self.redBull7)
         main_layout.addWidget(self.chips4)
         main_layout.addWidget(self.cookies6)
+        main_layout.addWidget(self.techstars1)
+        main_layout.addWidget(self.techstars2)
         central_widget = QWidget()
         central_widget.setLayout(main_layout)
 

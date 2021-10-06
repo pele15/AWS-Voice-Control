@@ -23,6 +23,10 @@ class MainWindow(QMainWindow):
         main_layout = QVBoxLayout()
 
         # Push Buttons
+        self.richard = QPushButton('Richard')
+        self.richard.clicked.connect(lambda: self.on_button_clicked('richard6'))
+        self.cow = QPushButton('Cow')
+        self.cow.clicked.connect(lambda: self.on_button_clicked('COW_4'))
         self.caribou = QPushButton('Caribou')
         self.caribou.clicked.connect(lambda: self.on_button_clicked('caribouSkippy2'))
         self.potBelly = QPushButton('Pot Belly')
@@ -70,6 +74,8 @@ class MainWindow(QMainWindow):
         main_layout.addWidget(self.pi4B) 
 
 
+        main_layout.addWidget(self.richard)
+        main_layout.addWidget(self.cow)
         main_layout.addWidget(self.caribou) 
         main_layout.addWidget(self.potBelly)
         main_layout.addWidget(self.ricos)

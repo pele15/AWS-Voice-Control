@@ -2,7 +2,6 @@ from awscrt import io, mqtt, auth, http
 from awsiot import mqtt_connection_builder
 import sys
 import configparser
-import time
 import json
 
 topics = configparser.ConfigParser()
@@ -48,12 +47,19 @@ def on_message_recieved(topic, payload, dup, qos, retian, **kwargs):
     print("Received message from topic '{}': {}".format(topic, payload))
     # implementation
 
-def main():
-    # Spin up resources
+def publish_msg(mqtt_client, json_payload, topic):
+    publish = mqtt_client.publish(
+    topic=topic,
+    #topic=topics['TOPICS']['voice'],
+    payload=json_payload,
+    qos=mqtt.QoS.AT_MOST_ONCE
+    )
+    return publish
+
+def connect_client():
     event_loop_group = io.EventLoopGroup(1)
     host_resolver = io.DefaultHostResolver(event_loop_group)
     client_bootstrap = io.ClientBootstrap(event_loop_group, host_resolver)
-
     config = configparser.ConfigParser()
     config.read('config.ini')
     print(config['AWS']['endpoint'])
@@ -71,7 +77,15 @@ def main():
         keep_alive_secs = 30,
         http_proxy_options = None
     )
+    return mqtt_client
 
+
+def main():
+    # Spin up resources
+    event_loop_group = io.EventLoopGroup(1)
+    host_resolver = io.DefaultHostResolver(event_loop_group)
+    client_bootstrap = io.ClientBootstrap(event_loop_group, host_resolver)
+    mqtt_client = connect_client()
     connection = mqtt_client.connect()
     connection.result() # waits until connection is established
     print("connection established!")
@@ -83,16 +97,20 @@ def main():
     # )
     # result = subscribe_event.result()
 
-    json_payload = json.dumps({'feed-id': "caribou",
+    json_payload = json.dumps({'feed-id': "potbelly",
                                 'display': True,
-                                'display-ad': "caribou"
+                                'display-ad': "potbelly",
+                                'ad-img': "freshie.jpg",
+                                'location': 'side'
                                 })
-    
-    publish = mqtt_client.publish(
-    topic=topics['TOPICS']['topic'],
-    payload=json_payload,
-    qos=mqtt.QoS.AT_LEAST_ONCE
-    )
+    topic="/voice"
+    # publish = mqtt_client.publish(
+    # topic="/pc/ad",
+    # #topic=topics['TOPICS']['topic'],
+    # payload=json_payload,
+    # qos=mqtt.QoS.AT_LEAST_ONCE
+    # )
+    publish = publish_msg(mqtt_client, json_payload, topic)
     print(publish)
     print("go here")
     disconnect(mqtt_client)

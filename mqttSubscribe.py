@@ -11,6 +11,18 @@ import threading
 
 topics = configparser.ConfigParser()
 topics.read('topics.ini')
+config = configparser.ConfigParser()
+config.read('config.ini')
+
+# args parse from config
+base_command = topics['DISPLAY']['baseCommand']
+ledRows = config['DISPLAY']['ledrows']
+ledColumns = config['DISPLAY']['ledColumns']
+ledChain = config['DISPLAY']['ledChain']
+ledSlowdownGPIO = config['DISPLAY']['ledSlowdownGPIO']
+ledGPIOMapping = config['DISPLAY']['ledGPIOMapping']
+ledPWMDitherBits = config['DISPLAY']['ledPWMDitherBits']
+ledShowRefresh = config['DISPLAY']['ledShowRefresh']
 
 JOKES_DICT = {
     'guac':"guac-resp",
@@ -63,21 +75,44 @@ def on_message_recieved(topic, payload, dup=None, qos=None, retian=None, **kwarg
     print("payload = ", payload)
 
     json_body = json.loads(payload.decode())
-    if (topic == '/voice'):
-        feed_id = json_body['feed-id']
+    # TODO: Make voice topic only for sounds
+
+    feed_id = json_body['feed-id']
+    location = config['DEVICE']['location']
+    sound_on = config['DEVICE']['sound']
+    ad_img= json_body['ad-img']
+    if (sound_on != "False"):
         if (json_body['display'] != True):
             playSound(feed_id)
         else:
-            adThread = threading.Thread(target=showAd, args=(topics['DISPLAY']['image'],))
+            adThread = threading.Thread(target=showAd, args=(ad_img,))
             soundThread = threading.Thread(target=playSound, args=(feed_id,))
             adThread.start()
             soundThread.start()
             adThread.join()
             soundThread.join()
+    elif location == 'pc':
+        pass
+    else:
+        showAd(ad_img)
 
-    
+def test_func(topic, payload, dup=None, qos=None, retian=None, **kwargs):
+    print("Hello from test func")
+    print(topic)
+
 def showAd(adName):
-    os.system(topics['DISPLAY']['command'] + ' ' + adName)
+    adCommand = base_command + \
+                " --led-rows=" + ledRows + \
+                " --led-cols=" + ledColumns + \
+                " --led-chain=" + ledChain + \
+                " --led-slowdown-gpio=" + ledSlowdownGPIO + \
+                " --led-gpio-mapping=" + ledGPIOMapping + \
+                " --led-pwm-dither-bits=" + ledPWMDitherBits
+
+    if ledShowRefresh == "True":
+        adCommand += " --led-show-refresh"
+    os.system(adCommand + ' ' + adName)
+    #os.system(topics['DISPLAY']['command'] + ' ' + adName)
 
 
 def playSound(feed_id):
@@ -105,8 +140,7 @@ def main():
     host_resolver = io.DefaultHostResolver(event_loop_group)
     client_bootstrap = io.ClientBootstrap(event_loop_group, host_resolver)
 
-    config = configparser.ConfigParser()
-    config.read('config.ini')
+
     print(config['AWS']['endpoint'])
     mqtt_conn = mqtt_connection_builder.mtls_from_path(
         endpoint =  config['AWS']['endpoint'],
@@ -127,13 +161,23 @@ def main():
     connection.result() # waits until connection is established
     print("connection established!")
 
+    # subscribe_event, packet_id = mqtt_conn.subscribe(
+    #     topic = topics['TOPICS']['voice'],
+    #     qos= mqtt.QoS.AT_MOST_ONCE,
+    #     callback=on_message_recieved
+    # )
+    # result = subscribe_event.result()
+    # print("Result status = ", result)
+
     subscribe_event, packet_id = mqtt_conn.subscribe(
-        topic = topics['TOPICS']['topic'],
-        qos= mqtt.QoS.AT_LEAST_ONCE,
-        callback=on_message_recieved
+    topic = config['DEVICE']['location'],
+    qos= mqtt.QoS.AT_MOST_ONCE,
+    callback=on_message_recieved
     )
+
     result = subscribe_event.result()
     print("Result status = ", result)
+
     received_all_event.wait()
 
 main()

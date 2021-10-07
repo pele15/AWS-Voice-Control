@@ -7,3 +7,6 @@
 #Config
 *.ini
 !topics.ini
+
+#PAT
+pat.txt

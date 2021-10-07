@@ -111,8 +111,8 @@ def showAd(adName):
 
     if ledShowRefresh == "True":
         adCommand += " --led-show-refresh"
-    os.system(adCommand + ' ' + adName)
-    #os.system(topics['DISPLAY']['command'] + ' ' + adName)
+    #os.system(adCommand + ' ' + adName)
+    os.system(topics['DISPLAY']['command'] + ' ' + adName)
 
 
 def playSound(feed_id):

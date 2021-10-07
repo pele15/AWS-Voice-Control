@@ -12,8 +12,8 @@ topics.read('topics.ini')
 io.init_logging(getattr(io.LogLevel, io.LogLevel.NoLogs.name), 'stderr')
 
 DEVICE_TO_LOCATION_DICT = {
-    "Back": "/piZero",
-    "Side A": "/pi4A",
+    "PiZero": "/piZero",
+    "Back": "/pi4A",
     "Side B": "/pi4B",
 }
 class MainWindow(QMainWindow):
@@ -23,6 +23,39 @@ class MainWindow(QMainWindow):
         main_layout = QVBoxLayout()
 
         # Push Buttons
+        self.minions4 = QPushButton('Minions4')
+        self.minions4.clicked.connect(lambda: self.on_button_clicked('minions4'))
+        self.minions6 = QPushButton('Minions6')
+        self.minions6.clicked.connect(lambda: self.on_button_clicked('minions6'))
+        self.dimo = QPushButton('3Dimo6')
+        self.dimo.clicked.connect(lambda: self.on_button_clicked('3dimo6'))
+        self.hya = QPushButton('Hya6')
+        self.hya.clicked.connect(lambda: self.on_button_clicked('hya6'))
+        self.parkway = QPushButton('Parkway4')
+        self.parkway.clicked.connect(lambda: self.on_button_clicked('parkway4'))
+        self.science = QPushButton('Science4')
+        self.science.clicked.connect(lambda: self.on_button_clicked('science4'))
+        self.ziscuit = QPushButton('Ziscuit4')
+        self.ziscuit.clicked.connect(lambda: self.on_button_clicked('ziscuit4'))
+        self.brett6 = QPushButton('Brett6')
+        self.brett6.clicked.connect(lambda: self.on_button_clicked('brett6'))
+        self.brett4 = QPushButton('Brett4')
+        self.brett4.clicked.connect(lambda: self.on_button_clicked('brett4'))
+        self.jess6 = QPushButton('Jess6')
+        self.jess6.clicked.connect(lambda: self.on_button_clicked('jess6'))
+        self.jess4 = QPushButton('Jess4')
+        self.jess4.clicked.connect(lambda: self.on_button_clicked('jess4'))
+        self.stephanie6 = QPushButton('Stephanie6')
+        self.stephanie6.clicked.connect(lambda: self.on_button_clicked('stephanie6'))
+        self.stephanie4 = QPushButton('Stephanie4')
+        self.stephanie4.clicked.connect(lambda: self.on_button_clicked('stephanie4'))
+        self.techstars = QPushButton('Techstars6')
+        self.techstars.clicked.connect(lambda: self.on_button_clicked('techstars6'))
+
+
+
+
+
         self.richard = QPushButton('Richard')
         self.richard.clicked.connect(lambda: self.on_button_clicked('richard6'))
         self.cow = QPushButton('Cow')
@@ -64,15 +97,29 @@ class MainWindow(QMainWindow):
         self.brett1.clicked.connect(lambda: self.on_button_clicked('brett6-1'))
         # Radio Button
         
-        self.piZero = QRadioButton("Back")
-        self.pi4A = QRadioButton("Side A")
+        self.pi4A = QRadioButton("Back")
+        self.piZero = QRadioButton("Side A")
         self.pi4B = QRadioButton("Side B")
         self.radioBtns = [self.piZero, self.pi4A, self.pi4B]
 
-        main_layout.addWidget(self.piZero)
+        #main_layout.addWidget(self.piZero)
         main_layout.addWidget(self.pi4A)
         main_layout.addWidget(self.pi4B) 
 
+        main_layout.addWidget(self.minions4)
+        main_layout.addWidget(self.minion6)
+        main_layout.addWidget(self.dimo)
+        main_layout.addWidget(self.hya)
+        main_layout.addWidget(self.parkway)
+        main_layout.addWidget(self.science)
+        main_layout.addWidget(self.ziscuit)
+        main_layout.addWidget(self.brett6)
+        main_layout.addWidget(self.brett4)
+        main_layout.addWidget(self.jess6)
+        main_layout.addWidget(self.jess4)
+        main_layout.addWidget(self.stephanie6)
+        main_layout.addWidget(self.stephanie4)
+        main_layout.addWidget(self.techstars)
 
         main_layout.addWidget(self.richard)
         main_layout.addWidget(self.cow)

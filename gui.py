@@ -106,7 +106,7 @@ class MainWindow(QMainWindow):
         main_layout.addWidget(self.pi4A)
         main_layout.addWidget(self.pi4B) 
 
-        main_layout.addWidget(self.boxes6)
+        main_layout.addWidget(self.boxes)
         main_layout.addWidget(self.minions4)
         main_layout.addWidget(self.minions6)
         main_layout.addWidget(self.dimo)

@@ -23,6 +23,9 @@ class MainWindow(QMainWindow):
         main_layout = QVBoxLayout()
 
         # Push Buttons
+        self.boxes = QPushButton('Boxes6')
+        self.boxes.clicked.connect(lambda: self.on_button_clicked('boxes6'))
+
         self.minions4 = QPushButton('Minions4')
         self.minions4.clicked.connect(lambda: self.on_button_clicked('minions4'))
         self.minions6 = QPushButton('Minions6')
@@ -31,7 +34,7 @@ class MainWindow(QMainWindow):
         self.dimo.clicked.connect(lambda: self.on_button_clicked('3dimo6'))
         self.hya = QPushButton('Hya6')
         self.hya.clicked.connect(lambda: self.on_button_clicked('hya6'))
-        self.parkway = QPushButton('Parkway4')
+        self.parkway = QPushButton('Parkday4')
         self.parkway.clicked.connect(lambda: self.on_button_clicked('parkway4'))
         self.science = QPushButton('Science4')
         self.science.clicked.connect(lambda: self.on_button_clicked('science4'))
@@ -51,9 +54,6 @@ class MainWindow(QMainWindow):
         self.stephanie4.clicked.connect(lambda: self.on_button_clicked('stephanie4'))
         self.techstars = QPushButton('Techstars6')
         self.techstars.clicked.connect(lambda: self.on_button_clicked('techstars6'))
-
-
-
 
 
         self.richard = QPushButton('Richard')
@@ -106,8 +106,9 @@ class MainWindow(QMainWindow):
         main_layout.addWidget(self.pi4A)
         main_layout.addWidget(self.pi4B) 
 
+        main_layout.addWidget(self.boxes6)
         main_layout.addWidget(self.minions4)
-        main_layout.addWidget(self.minion6)
+        main_layout.addWidget(self.minions6)
         main_layout.addWidget(self.dimo)
         main_layout.addWidget(self.hya)
         main_layout.addWidget(self.parkway)

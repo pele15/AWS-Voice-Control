@@ -23,6 +23,16 @@ class MainWindow(QMainWindow):
         main_layout = QVBoxLayout()
 
         # Push Buttons
+        self.nickWilliams = QPushButton('Nick6')
+        self.nickWilliams.clicked.connect(lambda: self.on_button_clicked('nick6'))
+        self.starTribune = QPushButton('Star4')
+        self.starTribune.clicked.connect(lambda: self.on_button_clicked('star4'))
+        self.bridge = QPushButton('Bridge4')
+        self.bridge.clicked.connect(lambda: self.on_button_clicked('bridge4'))
+        self.cathedral = QPushButton('Cathedral6')
+        self.cathedral.clicked.connect(lambda: self.on_button_clicked('cathedral6'))
+
+
         self.boxes = QPushButton('Boxes6')
         self.boxes.clicked.connect(lambda: self.on_button_clicked('boxes6'))
 
@@ -105,6 +115,11 @@ class MainWindow(QMainWindow):
         #main_layout.addWidget(self.piZero)
         main_layout.addWidget(self.pi4A)
         main_layout.addWidget(self.pi4B) 
+
+        main_layout.addWidget(self.nickWilliams)
+        main_layout.addWidget(self.starTribune)
+        main_layout.addWidget(self.bridge)
+        main_layout.addWidget(self.cathedral)
 
         main_layout.addWidget(self.boxes)
         main_layout.addWidget(self.minions4)

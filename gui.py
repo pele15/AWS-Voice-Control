@@ -16,6 +16,7 @@ DEVICE_TO_LOCATION_DICT = {
     "Side A": "/pi4A",
     "Side B": "/pi4B",
 }
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()

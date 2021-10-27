@@ -43,4 +43,4 @@ def resizeImage(img, panels):
         print(img.shape)
     return img
 
-restructureImage("test/twin-ignitions.png", "twin-ignitions-4.jpg", panels=4)
+restructureImage("test/carbon-origins.png", "carbon-origins-6.jpg", panels=6)

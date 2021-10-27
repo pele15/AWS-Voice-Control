@@ -88,6 +88,8 @@ class MainWindow(QMainWindow):
         self.twinIgnitions.clicked.connect(lambda: self.on_button_clicked('twin-ignitions-6'))
         self.twinIgnitions4 = QPushButton('Twin Ignitions 4')
         self.twinIgnitions4.clicked.connect(lambda: self.on_button_clicked('twin-ignitions-4'))
+        self.carbonOrigins6 = QPushButton('Carbon Origins 6')
+        self.carbonOrigins6.clicked.connect(lambda: self.on_button_clicked('carbon-origins-6'))
         # Radio Button
         
         self.pi4A = QRadioButton("Back")
@@ -132,6 +134,7 @@ class MainWindow(QMainWindow):
         main_layout.addWidget(self.brett1)
         main_layout.addWidget(self.twinIgnitions)
         main_layout.addWidget(self.twinIgnitions4)
+        main_layout.addWidget(self.carbonOrigins6)
         central_widget = QWidget()
         central_widget.setLayout(main_layout)
 

@@ -85,7 +85,7 @@ class MainWindow(QMainWindow):
         self.brett1 = QPushButton('Brett 6-1')
         self.brett1.clicked.connect(lambda: self.on_button_clicked('brett6-1'))
         self.twinIgnitions = QPushButton('Twin Ignitions 6')
-        self.twinIgnitions.clicked.connect(lambda: self.on_button_clicked('twin-ignitions'))
+        self.twinIgnitions.clicked.connect(lambda: self.on_button_clicked('twin-ignitions-6'))
         self.twinIgnitions4 = QPushButton('Twin Ignitions 4')
         self.twinIgnitions4.clicked.connect(lambda: self.on_button_clicked('twin-ignitions-4'))
         # Radio Button

@@ -8,7 +8,7 @@ def restructureImage(img, outputFileName, panels=6):
     img = np.array(img)
     
     print(img.shape)
-    img = resizeImage(img, panels)
+    #img = resizeImage(img, panels)
     if (panels == 6):
 
         img_top = img[:int(img.shape[0] / 3) , :img.shape[1], :]

@@ -8,7 +8,7 @@ def restructureImage(img, outputFileName, panels=6):
     img = np.array(img)
     
     print(img.shape)
-    #img = resizeImage(img, panels)
+    img = resizeImage(img, panels)
     if (panels == 6):
 
         img_top = img[:int(img.shape[0] / 3) , :img.shape[1], :]
@@ -16,9 +16,6 @@ def restructureImage(img, outputFileName, panels=6):
         img_middle = np.flip(img_middle, axis=0)
         img_middle = np.flip(img_middle, axis=1)
         img_bottom = img[int(img.shape[0] / 3) * 2 : , :img.shape[1], :]
-        print(img_top.shape)
-        print(img_middle.shape)
-        print(img_bottom.shape)
         stitched_img = np.empty((img_top.shape[0], img_top.shape[1] * 3, img_top.shape[2]))
         stitched_img = np.hstack((img_top, img_middle, img_bottom))
 
@@ -43,4 +40,4 @@ def resizeImage(img, panels):
         print(img.shape)
     return img
 
-restructureImage("test/carbon-origins.png", "carbon-origins-6.jpg", panels=6)
+restructureImage("test/twin-ignitions.png", "twin-ignitions-4.jpg", panels=4)

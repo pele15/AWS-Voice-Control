@@ -20,6 +20,7 @@ def restructureImage(img, outputFileName, panels=6):
     if (panels == 4):
         img_top = img[:int(img.shape[0] / 2) , :img.shape[1], :]
         img_top = np.flip(img_top, axis=0)
+        img_top = np.flip(img_top, axis=1)
         img_bottom = img[int(img.shape[0] / 2) :, :img.shape[1], :]
         #img_bottom = np.flip(img_bottom, axis=0)
         img_bottom = np.flip(img_bottom, axis=1)
